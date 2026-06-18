@@ -1,0 +1,49 @@
+.oe-admin {
+    max-width: 1180px;
+}
+
+.oe-admin > p {
+    max-width: 760px;
+}
+
+.oe-admin-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    margin: 24px 0;
+}
+
+.oe-card {
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
+    padding: 18px;
+}
+
+.oe-card h2 {
+    margin: 0 0 16px;
+}
+
+.oe-card label {
+    display: grid;
+    gap: 8px;
+    margin: 0 0 16px;
+}
+
+.oe-card input[type="number"],
+.oe-card input[type="range"],
+.oe-card input[type="color"] {
+    width: 100%;
+}
+
+.oe-card input[type="color"] {
+    min-height: 42px;
+}
+
+.oe-toggle {
+    align-items: center;
+    display: flex !important;
+    flex-direction: row;
+    gap: 10px !important;
+}
