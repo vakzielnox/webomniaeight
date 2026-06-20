@@ -58,6 +58,11 @@ body.home #wp--skip-link--target {
     display: none;
 }
 
+body.home .wp-site-blocks > header.wp-block-template-part,
+body.home .wp-site-blocks > footer.wp-block-template-part {
+    display: none;
+}
+
 .oe-home :where(h1, h2, h3, p) {
     color: inherit;
 }
