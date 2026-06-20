@@ -54,6 +54,10 @@ body.oe-motion-enabled .wp-block-button__link {
     overflow: hidden;
 }
 
+body.home #wp--skip-link--target {
+    display: none;
+}
+
 .oe-home :where(h1, h2, h3, p) {
     color: inherit;
 }

@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 final class OmniaEight_Control
 {
     private const OPTION = 'omniaeight_control_options';
-    private const VERSION = '1.1.1';
+    private const VERSION = '1.1.2';
     private const CACHE_VERSION_OPTION = 'omniaeight_control_cache_version';
     private $floating_rendered = false;
 
