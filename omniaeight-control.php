@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 final class OmniaEight_Control
 {
     private const OPTION = 'omniaeight_control_options';
-    private const VERSION = '1.0.2';
+    private const VERSION = '1.1.0';
     private const CACHE_VERSION_OPTION = 'omniaeight_control_cache_version';
     private $floating_rendered = false;
 
@@ -28,6 +28,7 @@ final class OmniaEight_Control
         add_action('wp_body_open', [$this, 'render_floating_elements']);
         add_action('wp_footer', [$this, 'render_floating_elements']);
         add_filter('body_class', [$this, 'add_body_classes']);
+        add_filter('the_content', [$this, 'replace_home_content'], 20);
     }
 
     public static function defaults(): array
@@ -54,6 +55,82 @@ final class OmniaEight_Control
     {
         $saved = get_option(self::OPTION, []);
         return wp_parse_args(is_array($saved) ? $saved : [], self::defaults());
+    }
+
+    public function replace_home_content(string $content): string
+    {
+        if (is_admin() || !is_front_page() || !in_the_loop() || !is_main_query()) {
+            return $content;
+        }
+
+        return '
+            <main class="oe-home" aria-label="OmniaEight home">
+                <section class="oe-hero alignfull">
+                    <div class="oe-hero__copy">
+                        <p class="oe-kicker">OmniaEight control layer</p>
+                        <h1>Diseno vivo para una web que se mueve contigo.</h1>
+                        <p class="oe-lead">Control visual sobre movimiento, scroll, cursor, capas, menu y elementos flotantes sin tocar el nucleo de WordPress.</p>
+                        <div class="oe-actions">
+                            <a class="oe-button oe-button--primary" href="#oe-control">Ver controles</a>
+                            <a class="oe-button oe-button--ghost" href="#oe-flow">Como funciona</a>
+                        </div>
+                    </div>
+                    <div class="oe-hero__stage" aria-hidden="true">
+                        <span class="oe-stage-card oe-stage-card--one">cursor</span>
+                        <span class="oe-stage-card oe-stage-card--two">scroll</span>
+                        <span class="oe-stage-card oe-stage-card--three">layers</span>
+                        <span class="oe-stage-ring"></span>
+                    </div>
+                </section>
+
+                <section id="oe-control" class="oe-section">
+                    <p class="oe-kicker">Panel principal</p>
+                    <h2>Controla la experiencia sin pelear con codigo.</h2>
+                    <div class="oe-grid">
+                        <article class="oe-feature">
+                            <span>01</span>
+                            <h3>Movimiento</h3>
+                            <p>Animaciones suaves, entrada por scroll y respuesta visual cuando el usuario toca botones o enlaces.</p>
+                        </article>
+                        <article class="oe-feature">
+                            <span>02</span>
+                            <h3>Capas flotantes</h3>
+                            <p>Orbes, profundidad y brillo para dar energia al sitio sin romper la lectura.</p>
+                        </article>
+                        <article class="oe-feature">
+                            <span>03</span>
+                            <h3>Cursor</h3>
+                            <p>Cursor personalizado para escritorio, con estado hover en elementos interactivos.</p>
+                        </article>
+                        <article class="oe-feature">
+                            <span>04</span>
+                            <h3>Menu sticky</h3>
+                            <p>Cabecera fija con blur, sombra y prioridad visual para mantener navegacion cerca.</p>
+                        </article>
+                    </div>
+                </section>
+
+                <section id="oe-flow" class="oe-section oe-flow">
+                    <div>
+                        <p class="oe-kicker">Sistema limpio</p>
+                        <h2>WordPress queda intacto. Git controla capa visual.</h2>
+                    </div>
+                    <ol class="oe-steps">
+                        <li><strong>GitHub</strong><span>Repo guarda plugin OmniaEight.</span></li>
+                        <li><strong>Hostinger</strong><span>Auto-deploy copia cambios a mu-plugins.</span></li>
+                        <li><strong>WordPress</strong><span>MU plugin carga solo, sin activar manualmente.</span></li>
+                        <li><strong>Web publica</strong><span>Usuarios ven diseno, movimiento y capas nuevas.</span></li>
+                    </ol>
+                </section>
+
+                <section class="oe-section oe-cta">
+                    <p class="oe-kicker">Siguiente nivel</p>
+                    <h2>Esta base ya puede crecer hacia editor visual propio.</h2>
+                    <p>Desde aqui se agregan presets, sliders, toggles, biblioteca de capas y control por secciones.</p>
+                    <a class="oe-button oe-button--primary" href="/wp-admin/admin.php?page=omniaeight-control">Abrir OmniaEight</a>
+                </section>
+            </main>
+        ';
     }
 
     public function maybe_purge_cache(): void
