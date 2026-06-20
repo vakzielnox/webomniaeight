@@ -14,13 +14,15 @@ if (!defined('ABSPATH')) {
 final class OmniaEight_Control
 {
     private const OPTION = 'omniaeight_control_options';
-    private const VERSION = '1.0.1';
+    private const VERSION = '1.0.2';
+    private const CACHE_VERSION_OPTION = 'omniaeight_control_cache_version';
     private $floating_rendered = false;
 
     public function __construct()
     {
         add_action('admin_menu', [$this, 'add_admin_page']);
         add_action('admin_init', [$this, 'register_settings']);
+        add_action('init', [$this, 'maybe_purge_cache']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_assets']);
         add_action('wp_body_open', [$this, 'render_floating_elements']);
@@ -52,6 +54,19 @@ final class OmniaEight_Control
     {
         $saved = get_option(self::OPTION, []);
         return wp_parse_args(is_array($saved) ? $saved : [], self::defaults());
+    }
+
+    public function maybe_purge_cache(): void
+    {
+        if (get_option(self::CACHE_VERSION_OPTION) === self::VERSION) {
+            return;
+        }
+
+        if (has_action('litespeed_purge_all')) {
+            do_action('litespeed_purge_all');
+        }
+
+        update_option(self::CACHE_VERSION_OPTION, self::VERSION, false);
     }
 
     public function add_admin_page(): void
