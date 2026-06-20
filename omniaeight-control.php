@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 final class OmniaEight_Control
 {
     private const OPTION = 'omniaeight_control_options';
-    private const VERSION = '1.0.0';
+    private const VERSION = '1.0.1';
     private $floating_rendered = false;
 
     public function __construct()
@@ -31,20 +31,20 @@ final class OmniaEight_Control
     public static function defaults(): array
     {
         return [
-            'accent_color' => '#7c3aed',
-            'background_tint' => '#0f172a',
+            'accent_color' => '#00e5ff',
+            'background_tint' => '#101828',
             'motion_enabled' => '1',
-            'motion_speed' => '700',
+            'motion_speed' => '900',
             'float_enabled' => '1',
-            'float_size' => '140',
-            'float_opacity' => '45',
-            'float_x' => '78',
-            'float_y' => '28',
+            'float_size' => '220',
+            'float_opacity' => '32',
+            'float_x' => '82',
+            'float_y' => '18',
             'scroll_reveal' => '1',
             'smooth_scroll' => '1',
-            'cursor_enabled' => '0',
+            'cursor_enabled' => '1',
             'sticky_menu' => '1',
-            'layer_depth' => '20',
+            'layer_depth' => '35',
         ];
     }
 

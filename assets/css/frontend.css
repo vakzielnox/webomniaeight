@@ -1,12 +1,12 @@
 :root {
-    --oe-accent: #7c3aed;
-    --oe-bg-tint: #0f172a;
-    --oe-motion-speed: 700ms;
-    --oe-float-size: 140px;
-    --oe-float-opacity: 0.45;
-    --oe-float-x: 78%;
-    --oe-float-y: 28%;
-    --oe-layer-depth: 20;
+    --oe-accent: #00e5ff;
+    --oe-bg-tint: #101828;
+    --oe-motion-speed: 900ms;
+    --oe-float-size: 220px;
+    --oe-float-opacity: 0.32;
+    --oe-float-x: 82%;
+    --oe-float-y: 18%;
+    --oe-layer-depth: 35;
 }
 
 html:has(body.oe-smooth-scroll) {
@@ -16,10 +16,33 @@ html:has(body.oe-smooth-scroll) {
 body.oe-sticky-menu header,
 body.oe-sticky-menu .site-header,
 body.oe-sticky-menu #masthead {
+    background: color-mix(in srgb, var(--oe-bg-tint) 68%, transparent);
+    box-shadow: 0 18px 45px rgb(16 24 40 / 14%);
     position: sticky;
     top: 0;
     z-index: 1000;
     backdrop-filter: blur(16px);
+}
+
+body.oe-motion-enabled a,
+body.oe-motion-enabled button,
+body.oe-motion-enabled .wp-block-button__link {
+    transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        color 180ms ease,
+        transform 180ms ease;
+}
+
+body.oe-motion-enabled a:hover,
+body.oe-motion-enabled button:hover,
+body.oe-motion-enabled .wp-block-button__link:hover {
+    box-shadow: 0 14px 30px color-mix(in srgb, var(--oe-accent) 22%, transparent);
+    transform: translateY(-2px);
+}
+
+body.oe-motion-enabled .wp-block-button__link {
+    border: 1px solid color-mix(in srgb, var(--oe-accent) 40%, transparent);
 }
 
 .oe-floating-layer {
@@ -33,7 +56,7 @@ body.oe-sticky-menu #masthead {
 .oe-floating-orb {
     border-radius: 999px;
     display: block;
-    filter: blur(1px);
+    filter: blur(10px);
     height: var(--oe-float-size);
     opacity: var(--oe-float-opacity);
     position: absolute;
@@ -42,12 +65,13 @@ body.oe-sticky-menu #masthead {
 
 .oe-floating-orb-primary {
     background: color-mix(in srgb, var(--oe-accent) 78%, transparent);
+    box-shadow: 0 0 70px color-mix(in srgb, var(--oe-accent) 60%, transparent);
     left: var(--oe-float-x);
     top: var(--oe-float-y);
 }
 
 .oe-floating-orb-secondary {
-    background: color-mix(in srgb, var(--oe-bg-tint) 72%, transparent);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--oe-bg-tint) 72%, transparent), color-mix(in srgb, var(--oe-accent) 42%, transparent));
     height: calc(var(--oe-float-size) * 0.58);
     left: calc(var(--oe-float-x) - 18%);
     top: calc(var(--oe-float-y) + 22%);
