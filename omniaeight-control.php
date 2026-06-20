@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 final class OmniaEight_Control
 {
     private const OPTION = 'omniaeight_control_options';
-    private const VERSION = '1.1.0';
+    private const VERSION = '1.1.1';
     private const CACHE_VERSION_OPTION = 'omniaeight_control_cache_version';
     private $floating_rendered = false;
 
@@ -23,6 +23,7 @@ final class OmniaEight_Control
         add_action('admin_menu', [$this, 'add_admin_page']);
         add_action('admin_init', [$this, 'register_settings']);
         add_action('init', [$this, 'maybe_purge_cache']);
+        add_action('template_redirect', [$this, 'buffer_front_page']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_assets']);
         add_action('wp_body_open', [$this, 'render_floating_elements']);
@@ -63,6 +64,34 @@ final class OmniaEight_Control
             return $content;
         }
 
+        return $this->home_markup();
+    }
+
+    public function buffer_front_page(): void
+    {
+        if (is_admin() || !is_front_page()) {
+            return;
+        }
+
+        ob_start(function (string $html): string {
+            $home = $this->home_markup();
+            $updated = preg_replace(
+                '/<main id="wp--skip-link--target"\\b[^>]*>.*?<\\/main>/s',
+                $home,
+                $html,
+                1
+            );
+
+            if (is_string($updated) && $updated !== $html) {
+                return $updated;
+            }
+
+            return str_replace('</header>', '</header>' . $home, $html);
+        });
+    }
+
+    private function home_markup(): string
+    {
         return '
             <main class="oe-home" aria-label="OmniaEight home">
                 <section class="oe-hero alignfull">
